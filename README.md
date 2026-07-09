@@ -24,11 +24,14 @@ git clone https://github.com/gitguffaw/AgyCLI.git ~/.agy-skills/AgyCLI
 # 2. Install for Claude Code
 ln -s ~/.agy-skills/AgyCLI ~/.claude/skills/AgyCLI
 
-# 3. Install for Codex (and Antigravity)
-ln -s ~/.agy-skills/AgyCLI ~/.gemini/config/skills/AgyCLI
+# 3. Install for Codex
+ln -s ~/.agy-skills/AgyCLI ~/.codex/skills/AgyCLI
 
 # 4. Install for Grok
 ln -s ~/.agy-skills/AgyCLI ~/.grok/skills/AgyCLI
+
+# 5. Install for Antigravity
+ln -s ~/.agy-skills/AgyCLI ~/.gemini/config/skills/AgyCLI
 ```
 
 ## Structure
