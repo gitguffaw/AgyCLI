@@ -15,15 +15,21 @@ The skill provides three primary workflows:
 
 ## Installation
 
-To equip your outer agent (Claude, Codex, Grok, etc.) with the ability to drive `agy`, clone this repository and symlink it into the respective agent's skills directory.
+To equip your outer agent with the ability to drive `agy`, clone this repository and symlink it into the respective agent's skills directory.
 
-For example, to install for Claude Code:
 ```bash
-git clone https://github.com/gitguffaw/AgyCLI.git ~/path/to/cloned/AgyCLI
-ln -s ~/path/to/cloned/AgyCLI ~/.claude/skills/AgyCLI
-```
+# 1. Clone the repository to a central location
+git clone https://github.com/gitguffaw/AgyCLI.git ~/.agy-skills/AgyCLI
 
-*(Similarly, symlink to `~/.gemini/config/skills/AgyCLI` for Codex/Antigravity if they act as the outer agent).*
+# 2. Install for Claude Code
+ln -s ~/.agy-skills/AgyCLI ~/.claude/skills/AgyCLI
+
+# 3. Install for Codex (and Antigravity)
+ln -s ~/.agy-skills/AgyCLI ~/.gemini/config/skills/AgyCLI
+
+# 4. Install for Grok
+ln -s ~/.agy-skills/AgyCLI ~/.grok/skills/AgyCLI
+```
 
 ## Structure
 
