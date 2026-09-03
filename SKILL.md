@@ -1,65 +1,38 @@
 ---
 name: AgyCli
-description: Operate the local agy CLI (formerly Gemini CLI) with serialized, machine-readable defaults. USE WHEN tasks explicitly require agy CLI OR local agy headless runs OR agy interactive sessions OR agy plugin management.
+version: 1.0.0
+description: Operate the local agy CLI with serialized, machine-readable defaults. USE WHEN tasks explicitly require agy CLI OR local agy headless runs OR agy interactive sessions OR configuring Google Antigravity customizations.
 ---
 
 # agy CLI
 
-Operate local `agy` with serialized defaults. Keep command truth in workflows and `references/QuickRef.md`.
+Operate local `agy` (Google Antigravity CLI). This skill helps you drive the CLI effectively as a sub-agent or secondary coding surface.
+
+## Execution Routes
+
+1. **Headless (`agy -p`)**: Use for one bounded text run.
+   - Example: `agy -p "Summarize the repo"`
+   - Output is plain text. Treat non-zero exit as failure.
+   - Run serially. Do not fan out multiple agy processes.
+
+2. **Interactive (`agy -i`)**: Use for iterative terminal steering.
+   - Example: `agy -i "Inspect the repo and stay interactive"`
+   - You must manage this as a background task. Use `manage_task send_input` to steer.
+
+3. **Customizations (Skills, Rules, Hooks, MCP, Plugins)**: Use for configuring the agent's behavior.
+   - Antigravity supports a rich customization system (Skills, Rules, Hooks, MCP Servers). 
+   - **Important**: Configurations live in `.agents/` (workspace-level) or `~/.gemini/config/` (global machine-level).
+   - Global CLI settings live in `~/.gemini/antigravity-cli/settings.json`.
+   - *Do not attempt to migrate configurations to `.agy/` (this is a deprecated/hallucinated path).*
+
+## CLI Command Reference
+
+For a full list of CLI flags, subcommands, and available models, read the verified reference:
+[references/QuickRef.md](./references/QuickRef.md)
 
 ## Hard Rules
 
-- Concurrency: `1`
+- Concurrency: `1` (Do not run multiple `agy` instances in parallel)
 - Delay between invocations: `30s`
 - Default headless form: `agy -p "<prompt>"`
-- Treat non-zero exit as total failure
-- Do not invent model ids; use `agy models` to discover available models
-
-## Default Route
-
-1. Need one bounded text run → `Headless`
-2. Need iterative terminal work → `Interactive`
-3. Need agy plugin/admin work → `Plugins`
-
-## Workflow Routing
-
-| Workflow | Trigger | File |
-|----------|---------|------|
-| **Headless** | Need one bounded agy run with text output | `Workflows/Headless.md` |
-| **Interactive** | Need iterative agy terminal work, session reuse, or project flows | `Workflows/Interactive.md` |
-| **Plugins** | Need agy plugin management (install, import, enable/disable) | `Workflows/Plugins.md` |
-
-## Migration Protocol (gemini → agy)
-
-When encountering legacy `.gemini/` configuration folders in a workspace:
-1. Do not delete or overwrite the `.gemini/` folder automatically.
-2. Read any necessary configurations or historical state from `.gemini/` if needed.
-3. Use the `agy` CLI for all new operations, which natively creates and relies on `.agy/` folders.
-4. If explicitly migrating a project, port the legacy configurations to `.agy/` safely, verify the new setup, and only then (if approved) remove the old `.gemini/` directory.
-
-## Files
-
-- `references/QuickRef.md`: verified local CLI surface
-
-## Examples
-
-**Example 1**
-```text
-Task: "Run agy locally and return one result."
-Route: Headless
-Entry: agy -p "Summarize the repo"
-```
-
-**Example 2**
-```text
-Task: "Open agy in a resumable terminal session for iterative steering."
-Route: Interactive
-Entry: agy -i "Inspect the current repo and stay interactive"
-```
-
-**Example 3**
-```text
-Task: "List installed plugins and import plugins from another CLI."
-Route: Plugins
-Entry: agy plugin list; agy plugin import gemini
-```
+- Do not invent model ids; use `agy models` to discover available models.
